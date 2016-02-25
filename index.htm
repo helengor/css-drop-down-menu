@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        /* It`s menu wrapper, you can add, and deleted all of css of this block */
+        .down-menu-wrapper{
+            margin: 50px;
+            font:0.9em/1.5em 'Verdana', 'Arial', sans-serif;
+            font-weight: 600;
+            transition: all 0.5s linear;
+            -o-transition: all 0.5s linear;
+            -moz-transition: all 0.5s linear;
+            -webkit-transition: all 0.5s linear;
+        }
+        /* style ul of menu items */
+        .down-menu {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        /* style ul of all menu level, but for first level */
+        .down-menu-next-level{
+            position: absolute;
+            top: 45px;
+            right: 20px;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 10;
+            width: 100%;
+            border: 1px solid #888;
+            transition: opacity 0.5s linear;
+            -o-transition: opacity 0.5s linear;
+            -moz-transition: opacity 0.5s linear;
+            -webkit-transition: opacity 0.5s linear;
+        }
+        /* style of menu items (li) */
+        .down-menu-item{
+            display: inline-block;
+            background: #0fb44b;
+            color: #fff;
+            padding: 5px 0;
+            width: 15%;
+            height: auto;
+            min-width: 150px;
+            text-align: center;
+            position: relative;
+        }
+        /* style special for first level items*/
+        .down-menu-first-level > .down-menu-item{
+            display: table-cell;
+        }
+        .down-menu-item > div{
+            padding: 10px 0;
+        }
+            /* this is lines between items of first level menu */
+            .down-menu-first-level > .down-menu-item > div:before{
+                content: "";
+                height: 60%;
+                border-right: 1px solid #dedede;
+                position: absolute;
+                top: 20%;
+                left: -1px;
+                z-index: 2;
+            }
+            .down-menu-first-level > .down-menu-item > div:after{
+                content: "";
+                height: 60%;
+                border-left: 1px solid #dedede;
+                position: absolute;
+                top: 20%;
+                right: 0;
+                z-index: 3;
+            }
+            /* don`t forget about first and last items, only one line*/
+            .down-menu-first-level > .down-menu-item:first-child > div:before{
+                border-right: none;
+            }
+            .down-menu-first-level > .down-menu-item:last-child > div:after{
+                border-left: none;
+            }
+         /* hover effects */
+        .down-menu-item:hover{
+            background: #0ea445;
+        }
+            .down-menu-first-level > .down-menu-item:hover > div:before{
+                border-right: 1px solid #0fb44b;
+                z-index: 5;
+            }
+            .down-menu-first-level > .down-menu-item:hover > div:after{
+                border-left: 1px solid #0ea445;
+                z-index: 5;
+            }
+            .down-menu-first-level > .down-menu-item:first-child:hover > div:before{
+                border-right: none;
+            }
+            .down-menu-first-level > .down-menu-item:last-child:hover > div:after{
+                border-left: none;
+            }
+            .down-menu-item-parent:hover > .down-menu-next-level{
+                visibility: visible;
+                opacity: 1;
+            }
+        /* little triangle for the active item */
+        .down-menu-item-active:after{
+            content: "";
+            width: 0;
+            height: 0;
+            border-bottom: 10px solid #0fb44b;
+            border-right: 10px solid transparent;
+            position: absolute;
+            top: -10px;
+            right: 20px;
+        }
+        /* don`t forget about hover effect */
+        .down-menu-item-active:hover:after{
+            border-bottom: 10px solid #0ea445;
+        }
+        /* if first element have a child menu, it`s show to the right*/
+        .down-menu-first-level > .down-menu-item:first-child.down-menu-item-parent .down-menu-next-level{
+            right: 0;
+            left: 20px;
+        }
+        .down-menu-next-level .down-menu-item{
+            width: 100%;
+        }
+        /* lines between menu items. Not for the first level */
+        .down-menu-next-level .down-menu-item > div:before{
+            content: "";
+            width: 80%;
+            border-top: 1px solid #dedede;
+            position: absolute;
+            top: -1px;
+            left: 10%;
+            z-index: 2;
+        }
+        .down-menu-next-level .down-menu-item > div:after{
+            content: "";
+            width: 80%;
+            border-bottom: 1px solid #dedede;
+            position: absolute;
+            bottom: 0;
+            right: 10%;
+            z-index: 3;
+        }
+        .down-menu-next-level .down-menu-item:first-child > div:before{
+            border-top: none;
+        }
+        .down-menu-next-level .down-menu-item:last-child > div:after{
+            border-bottom: none;
+        }
+        .down-menu-next-level .down-menu-item:hover > div:before{
+            border-top: 1px solid #0fb44b;
+            z-index: 5;
+        }
+        .down-menu-next-level .down-menu-item:hover > div:after{
+            border-bottom: 1px solid #0ea445;
+            z-index: 5;
+        }
+        .down-menu-next-level .down-menu-item:first-child:hover > div:before{
+            border-top: none;
+        }
+        .down-menu-next-level .down-menu-item:last-child:hover > div:after{
+            border-bottom: none;
+        }
+        /* make font less for the small screen */
+        @media screen and (max-width:800px) {
+            .down-menu-wrapper {
+                font-size:0.8em;
+            }
+        }
+        @media screen and (max-width:400px) {
+            .down-menu-wrapper {
+                font-size:0.7em;
+            }
+        }
+    </style>
+    <title>DownMenu</title>
+</head>
+<body>
+<div class="down-menu-wrapper">
+    <ul class="down-menu down-menu-first-level">
+        <li class="down-menu-item down-menu-item-parent"><div>First menu item top level</div>
+            <ul class="down-menu down-menu-next-level">
+                <li class="down-menu-item"><div>First menu item second level</div>
+                </li><li class="down-menu-item down-menu-item-parent"><div>Second menu item second level</div>
+                <ul class="down-menu down-menu-next-level">
+                    <li class="down-menu-item"><div>First menu item third level</div>
+                    </li><li class="down-menu-item"><div>Second menu item third level</div>
+                </li><li class="down-menu-item"><div>Third menu item third level</div></li>
+                </ul>
+            </li>
+            </ul>
+        </li><li class="down-menu-item down-menu-item-active"><div>Second menu item top level</div>
+        </li><li class="down-menu-item down-menu-item-parent"><div>Third menu item top level</div>
+            <ul class="down-menu down-menu-next-level">
+                <li class="down-menu-item down-menu-item-parent"><div>First menu item second level</div>
+                    <ul class="down-menu down-menu-next-level">
+                        <li class="down-menu-item"><div>First menu item third level</div>
+                        </li><li class="down-menu-item"><div>Second menu item third level</div>
+                    </li><li class="down-menu-item"><div>Third menu item third level</div></li>
+                    </ul>
+                </li><li class="down-menu-item"><div>Second menu item second level</div></li>
+            </ul>
+        </li><li class="down-menu-item down-menu-item-parent"><div>Fourth menu item top level</div>
+            <ul class="down-menu down-menu-next-level">
+                <li class="down-menu-item"><div>First menu item second level</div>
+                </li><li class="down-menu-item down-menu-item-parent"><div>Second menu item second level</div>
+                    <ul class="down-menu down-menu-next-level">
+                        <li class="down-menu-item"><div>First menu item third level</div>
+                        </li><li class="down-menu-item"><div>Second menu item third level</div>
+                        </li><li class="down-menu-item"><div>Third menu item third level</div></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+</body>
+</html>
